@@ -17,29 +17,18 @@ namespace Kata4
         {
             var dictionaryReader = new DictionaryReader("c:\\dicttest.txt");
 
-            var words = dictionaryReader.FindAll("321");
+            var words = dictionaryReader.GetDictionary();
 
-            words.Should().BeEquivalentTo(new List<string> {"123", "132"});
-
-        }
-
-        [Fact]
-        public void test_finding_string1()
-        {
-            var dictionaryReader = new DictionaryReader("c:\\dicttest.txt");
-
-            var words = dictionaryReader.FindAll("olleh");
-
-            words.Should().BeEquivalentTo(new List<string> { "hello" });
+            words.Should().BeEquivalentTo(new List<string> {"123", "132", "1234", "1456", "abcd", "window", "store", "hello"});
 
         }
 
         [Fact]
-        public void test_wrond_word()
+        public void test_test_non_existent_file()
         {
-            var dictionaryReader = new DictionaryReader("c:\\dicttest.txt");
+            var dictionaryReader = new DictionaryReader("c:\\111");
 
-            var words = dictionaryReader.FindAll("1890");
+            var words = dictionaryReader.GetDictionary();
 
             words.Should().BeEmpty();
 
@@ -53,7 +42,7 @@ namespace Kata4
         {
             var dictionaryReader = Substitute.For<IDictionaryReader>();
 
-            dictionaryReader.FindAll("abcd").Returns(new List<string>() { "abcd" });
+            dictionaryReader.GetDictionary().Returns(new List<string>() { "abcd", "123", "478878" });
 
             var anagramS = new AnagramSearcher(dictionaryReader);
 
@@ -67,7 +56,7 @@ namespace Kata4
         {
             var dictionaryReader = Substitute.For<IDictionaryReader>();
 
-            dictionaryReader.FindAll("abcd").Returns(new List<string>());
+            dictionaryReader.GetDictionary().Returns(new List<string>());
 
             var anagramS = new AnagramSearcher(dictionaryReader);
 
@@ -81,7 +70,7 @@ namespace Kata4
         {
             var dictionaryReader = Substitute.For<IDictionaryReader>();
 
-            dictionaryReader.FindAll("123").Returns(new List<string> { "123", "213", "231", "321", "312", "132" });
+            dictionaryReader.GetDictionary().Returns(new List<string> { "123", "213", "231", "321", "312", "132", "abcd", "ppp" });
 
             var anagramS = new AnagramSearcher(dictionaryReader);
 
@@ -96,7 +85,7 @@ namespace Kata4
         {
             var dictionaryReader = Substitute.For<IDictionaryReader>();
 
-            dictionaryReader.FindAll("123456fgfjhk").Returns(new List<string>());
+            dictionaryReader.GetDictionary().Returns(new List<string>{"akljhlk", "vo;o"});
 
             var anagramS = new AnagramSearcher(dictionaryReader);
 
@@ -110,59 +99,13 @@ namespace Kata4
         {
             var dictionaryReader = Substitute.For<IDictionaryReader>();
 
-            dictionaryReader.FindAll("1234").Returns(new List<string> { "1234",
-            "1243",
-            "1324",
-            "1342",
-            "1423",
-            "1432",
-            "2134",
-            "2143",
-            "2314",
-            "2341",
-            "2431",
-            "2413",
-            "4123",
-            "4132",
-            "4213",
-            "4231",
-            "4312",
-            "4321",
-            "3124",
-            "3142",
-            "3214",
-            "3241",
-            "3412",
-            "3421" });
+            dictionaryReader.GetDictionary().Returns( new List<string>{"fgd", "dfsd", "4312"});
             
             var anagramS = new AnagramSearcher(dictionaryReader);
 
             var l = anagramS.Transform("1234");
 
-            l.Should().BeEquivalentTo(new List<string> { "1234",
-            "1243",
-            "1324",
-            "1342",
-            "1423",
-            "1432",
-            "2134",
-            "2143",
-            "2314",
-            "2341",
-            "2431",
-            "2413",
-            "4123",
-            "4132",
-            "4213",
-            "4231",
-            "4312",
-            "4321",
-            "3124",
-            "3142",
-            "3214",
-            "3241",
-            "3412",
-            "3421" });
+            l.Should().BeEquivalentTo(new List<string> {"4312"});
 
         }
 
@@ -188,30 +131,7 @@ namespace Kata4
 
             var l = anagramS.Transform("1234");
 
-            l.Should().BeEquivalentTo(new List<string>() { "1234",
-            "1243",
-            "1324",
-            "1342",
-            "1423",
-            "1432",
-            "2134",
-            "2143",
-            "2314",
-            "2341",
-            "2431",
-            "2413",
-            "4123",
-            "4132",
-            "4213",
-            "4231",
-            "4312",
-            "4321",
-            "3124",
-            "3142",
-            "3214",
-            "3241",
-            "3412",
-            "3421" });
+            l.Should().BeEquivalentTo(new List<string>{"1234","1243","1324","1342","1423","1432","2134","2143","2314","2341","2431","2413","4123","4132","4213","4231","4312","4321","3124","3142","3214","3241","3412","3421" });
 
         }
     }

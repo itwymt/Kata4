@@ -21,17 +21,16 @@ namespace Kata4
             _dictionarylist = ReadFromFile(DictionaryPath);
         }
 
-        public IEnumerable<string> FindAll(string word)
+        public IEnumerable<string> GetDictionary()
         {
-            return _dictionarylist.Where(s => new string(s.OrderBy(c => c).ToArray()) == new string(word.OrderBy(c => c).ToArray())).ToList();
+            return _dictionarylist;
         }
-
         private IEnumerable<string> ReadFromFile(string fileName)
         {
             if (File.Exists(fileName))
             {
                 var sm = new StreamReader(fileName);
-                var sr = sm.ReadToEndAsync().Result.Split(new [] {'\r', '\n'});
+                var sr = sm.ReadToEndAsync().Result.Split(new [] {'\r', '\n', ','}, StringSplitOptions.RemoveEmptyEntries);
                 return sr.ToList();
             }
             return new List<string>();
@@ -49,7 +48,8 @@ namespace Kata4
 
         public IEnumerable<string> Transform(string word)
         {
-            return _dictionaryReader.FindAll(word);
+            var dictionary = _dictionaryReader.GetDictionary();
+            return dictionary.Where(s => new string(s.OrderBy(c => c).ToArray()) == new string(word.OrderBy(c => c).ToArray())).ToList();
         }
     }
 }

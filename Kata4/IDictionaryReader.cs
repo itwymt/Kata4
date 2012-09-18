@@ -7,6 +7,6 @@ namespace Kata4
 {
     public interface IDictionaryReader
     {
-        IEnumerable<string> FindAll(string word);
+        IEnumerable<string> GetDictionary();
     }
 }
